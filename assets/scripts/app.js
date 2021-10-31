@@ -1,6 +1,5 @@
 const defaultResult = 0;
 let currentResult = defaultResult;
-let logEntries = [];
 
 function getUserInput() {
   if (userInput.value === "") {
@@ -19,34 +18,62 @@ function createAndWriteOutput(operator, resultBeforCal, calcNumber) {
   clearDataFromInput();
 }
 
-function add() {
+function calculateResult(calculationType) {
+  if (
+    calculationType !== "ADD" &&
+    calculationType !== "SUB" &&
+    calculationType !== "MUL" &&
+    calculationType !== "DIV"
+  )
+    return;
+
   const enteredNumber = getUserInput();
   const initialResult = currentResult;
-  currentResult += enteredNumber;
-  createAndWriteOutput("+", initialResult, enteredNumber);
-  logEntries.push(enteredNumber);
-  console.log(logEntries);
+  let mathOperator;
+  switch (calculationType) {
+    case "ADD":
+      currentResult += enteredNumber;
+      mathOperator = "+";
+      break;
+    case "SUB":
+      currentResult -= enteredNumber;
+      mathOperator = "-";
+      break;
+    case "MUL":
+      currentResult *= enteredNumber;
+      mathOperator = "*";
+      break;
+    case "DIV":
+      if (enteredNumber === 0) {
+        const errorMsg = "We are not allowed to divided by with 0";
+        outputResult(0, errorMsg);
+        clearDataFromInput();
+        return;
+      }
+      currentResult /= enteredNumber;
+      mathOperator = "/";
+      break;
+    default:
+      break;
+  }
+
+  createAndWriteOutput(mathOperator, initialResult, enteredNumber);
+}
+
+function add() {
+  calculateResult("ADD");
 }
 
 function subtract() {
-  const enteredNumber = getUserInput();
-  const initialResult = currentResult;
-  currentResult -= enteredNumber;
-  createAndWriteOutput("-", initialResult, enteredNumber);
+  calculateResult("SUB");
 }
 
 function multiply() {
-  const enteredNumber = getUserInput();
-  const initialResult = currentResult;
-  currentResult *= enteredNumber;
-  createAndWriteOutput("*", initialResult, enteredNumber);
+  calculateResult("MUL");
 }
 
 function divide() {
-  const enteredNumber = getUserInput();
-  const initialResult = currentResult;
-  currentResult /= enteredNumber;
-  createAndWriteOutput("/", initialResult, enteredNumber);
+  calculateResult("DIV");
 }
 
 addBtn.addEventListener("click", add);
