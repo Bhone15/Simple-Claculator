@@ -45,7 +45,8 @@ function calculateResult(calculationType) {
       break;
     case "DIV":
       if (enteredNumber === 0) {
-        const errorMsg = "We are not allowed to divided by with 0";
+        const errorMsg =
+          "We are not allowed to divided by with 0 \n So I setted Result Value to `0`";
         outputResult(0, errorMsg);
         clearDataFromInput();
         return;
